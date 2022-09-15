@@ -1,11 +1,18 @@
 import { useEffect, useState } from 'react'
 import Cliente from '../../components/Cliente';
-
+import Paginacion from "../../components/Paginacion";
 
 
 const NominaClientes = () => {
-
   const [clientes, setClientes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostPerPage] = useState(18);
+
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage;
+  const currentPosts = clientes.slice(firstPostIndex, lastPostIndex);
+  console.log(currentPosts);
 
   useEffect(() => {
     const obtainCustomersApi = async () => {
@@ -58,7 +65,7 @@ const NominaClientes = () => {
           </tr>
         </thead>
         <tbody>
-          {clientes.map( cliente => (
+          {currentPosts.map( cliente => (
             <Cliente 
               key={cliente.id}
               cliente={cliente}
@@ -67,6 +74,18 @@ const NominaClientes = () => {
           ))}
         </tbody>
       </table>
+      <div className="bg-gray-800 text-gray-300 rounded-b-lg text-center p-2 h-11">
+        <nav>
+          <ul className="inline-flex -space-x-px">
+            <Paginacion
+              totalPosts={clientes.length}
+              postsPerPage={postsPerPage}
+              setCurrentPage={setCurrentPage}
+              currentPage={currentPage}
+            />
+          </ul>
+        </nav>
+      </div>
     </div>
   )
 }

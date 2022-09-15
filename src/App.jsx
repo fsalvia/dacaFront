@@ -16,6 +16,10 @@ import NuevaFactura from './paginas/facturas/NuevaFactura'
 import ListadoFacturas from './paginas/facturas/ListadoFacturas'
 import EditarFacturas from './paginas/facturas/EditarFacturas'
 import DetalleFacturas from './paginas/facturas/DetalleFacturas'
+import NuevoGasto from './paginas/gastos/NuevoGasto'
+import ListadoGastos from './paginas/gastos/ListadoGastos'
+import EditarGastos from './paginas/gastos/EditarGastos'
+import DetalleGastos from './paginas/gastos/DetalleGastos'
 
 
 function App() {
@@ -49,6 +53,13 @@ function App() {
           <Route path='listado' element={<ListadoFacturas />}/>
           <Route path='editar/:id' element={<EditarFacturas />}/>
           <Route path=':id' element={<DetalleFacturas />}/>
+        </Route>
+        <Route path='/gastos' element={<Layout />} >
+          <Route index element={<Dashboard />}/>
+          <Route path='nuevo' element={<NuevoGasto />}/>
+          <Route path='listado' element={<ListadoGastos />}/>
+          <Route path='editar/:id' element={<EditarGastos />}/>
+          <Route path=':id' element={<DetalleGastos />}/>
         </Route>
       </Routes>
     </BrowserRouter>

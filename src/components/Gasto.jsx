@@ -1,50 +1,52 @@
 import { useNavigate } from "react-router-dom";
 
-const Factura = ({ factura, handleEliminar }) => {
+const Gasto = ({ gasto, handleEliminar }) => {
   const navigate = useNavigate();
-  var {
+  const {
     id,
-    dateOfIssue,
-    type,
-    sellPoint,
     invoiceNumber,
-    docType,
-    docNum,
-    denomination,
-    changeType,
-    currency,
-    noTaxesAmount,
-    iva,
-    invoiceAmount,
-    saleCondition,    
+    dateOfIssue,
+    supplier,
+    saleCondition,
     status,
-    purchaseOrder,
-  } = factura;
+    invoiceAmount,
+    concept,
+    neto,
+    iva21,
+    iva27,
+    rni105,
+    perIIBB,
+    iibbcaba,
+    monotributo,
+    otrosImp,
+    persIVA,
+    noGrabado,
+  } = gasto;
 
-  if(type==="201 - Factura de credito Electronica MyPyMEs (FCE) A"){
-    type="201 - Factura A"
-  }
-  if(type==="203 - Nota de credito Electronica MyPyMEs (FCE) A"){
-    type="203 - Nota de credito A"
-  }
-
-  function formatNumber(number){
-    return new Intl.NumberFormat().format(number)
+  function formatNumber(number) {
+    return new Intl.NumberFormat().format(number);
   }
 
   return (
     <tr className="border-b border-gray-800 hover:bg-gray-200">
-      <td className="p-1 text-center">{invoiceNumber}</td>
-      <td className="p-1 text-center">{dateOfIssue}</td>
-      <td className="p-1 text-center">{type}</td>
-      <td className="p-1">{denomination}</td>
-      <td className="p-1 text-center">{saleCondition}</td>
-      <td className="p-1 text-center">{status}</td>
-      <td className="p-1 text-center">{currency}</td>
-      <td className="p-1 text-right">${formatNumber(noTaxesAmount)}</td>
-      <td className="p-1 text-right">${formatNumber(iva)}</td>
-      <td className="p-1 text-right">${formatNumber(invoiceAmount)}</td>
-      <td className="p-1 text-center">
+      <td className="p-1 text-center text-sm">{invoiceNumber}</td>
+      <td className="p-1 text-center text-sm">{dateOfIssue}</td>
+      <td className="p-1 text-center text-sm text-clip overflow-hidden">{supplier.businessName}</td>
+      <td className="p-1 text-center text-sm">{concept}</td>
+      <td className="p-1 text-center text-sm">{saleCondition}</td>
+      <td className="p-1 text-center text-sm">{status}</td>
+      <td className="p-1 text-center text-sm">${formatNumber(neto)}</td>
+      <td className="p-1 text-center text-sm">{iva21===0? '-':('$'+formatNumber(iva21))}</td>
+      <td className="p-1 text-center text-sm">{iva27===0? '-':('$'+formatNumber(iva27))}</td>
+      <td className="p-1 text-center text-sm">{rni105===0? '-':('$'+formatNumber(rni105))}</td>
+      <td className="p-1 text-center text-sm">{perIIBB===0? '-':('$'+formatNumber(perIIBB))}</td>
+      <td className="p-1 text-center text-sm">{iibbcaba===0? '-':('$'+formatNumber(iibbcaba))}</td>
+      <td className="p-1 text-center text-sm">{monotributo===0? '-':('$'+formatNumber(monotributo))}</td>
+      <td className="p-1 text-center text-sm">{otrosImp===0? '-':('$'+formatNumber(otrosImp))}</td>
+      <td className="p-1 text-center text-sm">{persIVA===0? '-':('$'+formatNumber(persIVA))}</td>
+      <td className="p-1 text-center text-sm">{noGrabado===0? '-':('$'+formatNumber(noGrabado))}</td>
+      <td className="p-1 text-center text-sm">{invoiceAmount===0? '-':('$'+formatNumber(invoiceAmount))}</td>
+      <td className="p-1 text-center text-sm">
         <button
           className="bg-green-600 rounded-md p-0.5 text-gray-600 hover:bg-green-400"
           onClick={() => navigate(`../${id}`)}
@@ -71,7 +73,7 @@ const Factura = ({ factura, handleEliminar }) => {
         </button>
         <button
           className="bg-yellow-600 rounded-md p-0.5 ml-2 text-gray-600 hover:bg-yellow-400"
-          onClick={() => navigate(`/facturas/editar/${id}`)}
+          onClick={() => navigate(`/gastos/editar/${id}`)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -112,4 +114,4 @@ const Factura = ({ factura, handleEliminar }) => {
   );
 };
 
-export default Factura;
+export default Gasto;

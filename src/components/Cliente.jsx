@@ -16,14 +16,14 @@ const Cliente = ({ cliente, handleEliminar }) => {
 
   return (
     <tr className="border-b border-gray-800 hover:bg-gray-200">
-      <td className="p-3">{businessName}</td>
-      <td className="p-3">{cuit}</td>
-      <td className="p-3">{contactName}</td>
-      <td className="p-3">{telephone}</td>
-      <td className="p-3">{address}</td>
-      <td className="p-3">{location}</td>
-      <td className="p-3">{email}</td>
-      <td className="p-2 text-center">
+      <td className="p-1 pl-4">{businessName}</td>
+      <td className="p-1">{cuit}</td>
+      <td className="p-1">{contactName}</td>
+      <td className="p-1">{telephone}</td>
+      <td className="p-1">{address}</td>
+      <td className="p-1">{location}</td>
+      <td className="p-1">{email}</td>
+      <td className="p-1 text-center">
         <button className="bg-green-600 rounded-md p-0.5 text-gray-600 hover:bg-green-400"
         onClick={() => navigate(`../${id}`)}
         >
@@ -33,7 +33,7 @@ const Cliente = ({ cliente, handleEliminar }) => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-5 h-5"
           >
             <path
               strokeLinecap="round"
@@ -50,7 +50,7 @@ const Cliente = ({ cliente, handleEliminar }) => {
         <button className="bg-yellow-600 rounded-md p-0.5 ml-2 text-gray-600 hover:bg-yellow-400" onClick={() => navigate(`/clientes/editar/${id}`)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -66,7 +66,7 @@ const Cliente = ({ cliente, handleEliminar }) => {
         <button className="bg-red-600 rounded-md p-0.5 ml-2 text-gray-600 hover:bg-red-400" onClick={() => handleEliminar(id)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

@@ -356,28 +356,28 @@ const Layout = () => {
                 <div className="pt-2 pl-4">
                   <ul className="flex flex-col pl-2 text-gray-500 border-l border-gray-700">
                     <li>
-                      <a
-                        href="#"
-                        className="duration-300 inline-block w-full px-4 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white"
+                    <Link
+                        to="/gastos/listado"
+                        className={`${
+                          urlActual === "/gastos/listado"
+                            ? "text-gray-300"
+                            : " text-gray-500"
+                        } duration-300 inline-block w-full px-4 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white`}
                       >
-                        Todas las Facturas
-                      </a>
+                        Listado de Gastos
+                      </Link>
                     </li>
                     <li>
-                      <a
-                        href="#"
-                        className="duration-300 inline-block w-full px-4 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white"
+                    <Link
+                        to="/gastos/nuevo"
+                        className={`${
+                          urlActual === "/gastos/nuevo"
+                            ? "text-gray-300"
+                            : " text-gray-500"
+                        } duration-300 inline-block w-full px-4 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white`}
                       >
-                        Carga de Factura
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        className="duration-300 inline-block w-full px-4 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white"
-                      >
-                        Consultar Detalles
-                      </a>
+                        Nuevo Gasto
+                      </Link>
                     </li>
                   </ul>
                 </div>
