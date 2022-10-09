@@ -12,7 +12,7 @@ const EditarCliente = () => {
     setCargando(!cargando);
     const obtenerCliente = async () => {
       try {
-        const url = `http://localhost:8080/api/customer/${id}`;
+        const url = `http://168.181.184.148:8080/api/customer/${id}`;
         const response = await fetch(url);
         const respuesta = await response.json();
         setCliente(respuesta);

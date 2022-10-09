@@ -11,7 +11,7 @@ const ListadoProyectos = () => {
   useEffect(() => {
     const obtainProjectsApi = async () => {
       try {
-        const url = "http://localhost:8080/api/project";
+        const url = "http://168.181.184.148:8080/api/project";
         const response = await fetch(url);
         const resultado = await response.json();
         setProyectos(resultado);
@@ -27,7 +27,7 @@ const ListadoProyectos = () => {
     const confirmar = confirm('¿Deseas eliminar este proyecto?')
     if (confirmar) {
       try {
-        const url = `http://localhost:8080/api/project/${id}`
+        const url = `http://168.181.184.148:8080/api/project/${id}`
         const response = await fetch(url, {
           method: 'DELETE'
         })

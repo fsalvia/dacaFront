@@ -1,5 +1,12 @@
-import { useState } from "react";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import {
+  Outlet,
+  Link,
+  useLocation,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const Layout = () => {
   const [open, setOpen] = useState(true);
@@ -8,9 +15,18 @@ const Layout = () => {
   const [openFac, setOpenFac] = useState(true);
   const [openGas, setOpenGas] = useState(true);
   const [openRem, setOpenRem] = useState(true);
+  const navigate = useNavigate();
 
   const location = useLocation();
   const urlActual = location.pathname;
+
+  const { auth } = useAuth();
+
+  useEffect(() => {
+    {
+      auth.id == undefined ? navigate("/") : "";
+    }
+  }, []);
 
   return (
     <div className="md:flex">
@@ -356,7 +372,7 @@ const Layout = () => {
                 <div className="pt-2 pl-4">
                   <ul className="flex flex-col pl-2 text-gray-500 border-l border-gray-700">
                     <li>
-                    <Link
+                      <Link
                         to="/gastos/listado"
                         className={`${
                           urlActual === "/gastos/listado"
@@ -368,7 +384,7 @@ const Layout = () => {
                       </Link>
                     </li>
                     <li>
-                    <Link
+                      <Link
                         to="/gastos/nuevo"
                         className={`${
                           urlActual === "/gastos/nuevo"
@@ -456,36 +472,83 @@ const Layout = () => {
               <div className="px-6 pt-4">
                 <hr className="border-gray-700" />
               </div>
-              <li className="relative text-gray-500 hover:text-white focus-within:text-white">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
-                  <svg
-                    className="w-5 h-5 stroke-current"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 4.75L19.25 9L12 13.25L4.75 9L12 4.75Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></path>
-                    <path
-                      d="M9.25 12L4.75 15L12 19.25L19.25 15L14.6722 12"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></path>
-                  </svg>
-                </div>
-                <a
-                  href="#"
-                  className="inline-block w-full py-2 pl-8 pr-4 text-xs rounded hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800"
+              <details className=" text-gray-500">
+                <summary
+                  onClick={() => setOpenCli(!openCli)}
+                  className="flex transition-transform  hover:text-white list-none items-center justify-between w-full py-2 pl-2 pr-4 text-xs rounded hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800"
                 >
-                  Design
-                </a>
-              </li>
+                  <div className="flex items-center w-full ">
+                    <span className="flex">
+                      <span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="w-5 h-5"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"
+                          />
+                        </svg>
+                      </span>
+                      <span className="px-1 py-0.5">Usuarios</span>
+                    </span>
+                  </div>
+                  <span>
+                    <svg
+                      className={`${
+                        !openCli ? "" : "rotate-180"
+                      } duration-100 h-3 w-3`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+                <div className="pt-2 pl-4">
+                  <ul
+                    className={`${
+                      openCli ? "text-gray-500" : "text-gray-900"
+                    } origin-top-left duration-500 flex flex-col pl-2  border-l border-gray-700`}
+                  >
+                    <li>
+                      <Link
+                        to="/usuarios/nomina"
+                        className={`${
+                          urlActual === "/usuarios/nomina"
+                            ? "text-gray-300"
+                            : " text-gray-500"
+                        } duration-300 inline-block w-full px-4 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white`}
+                      >
+                        Nómina de Usuarios
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/usuarios/nuevo"
+                        className={`${
+                          urlActual === "/usuarios/nuevo"
+                            ? "text-gray-300"
+                            : " text-gray-500"
+                        } duration-300 inline-block w-full px-4 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white`}
+                      >
+                        Nuevo Usuario
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </details>
               <li className="relative text-gray-500 hover:text-white focus-within:text-white">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none">
                   <svg

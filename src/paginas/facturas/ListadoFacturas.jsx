@@ -17,11 +17,11 @@ const ListadoFacturas = () => {
     const obtainInvoiceApi = async () => {
       try {
         const url =
-          "http://localhost:8080/api/invoice?field=id&ord=DESC&offset=0&pageSize=100000";
+          "http://168.181.184.148:8080/api/invoice";
         const response = await fetch(url);
         const resultado = await response.json();
 
-        setFacturas(resultado.response.content);
+        setFacturas(resultado);
       } catch (error) {
         console.log(error);
       }
@@ -33,7 +33,7 @@ const ListadoFacturas = () => {
     const confirmar = confirm("¿Deseas eliminar esta factura?");
     if (confirmar) {
       try {
-        const url = `http://localhost:8080/api/invoice/${id}`;
+        const url = `http://168.181.184.148:8080/api/invoice/${id}`;
         const response = await fetch(url, {
           method: "DELETE",
         });

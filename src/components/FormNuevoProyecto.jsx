@@ -10,7 +10,7 @@ const FormuarioNuevoProyecto = ({ proyecto }) => {
   useEffect(() => {
     const obtainCustomersApi = async () => {
       try {
-        const url = "http://localhost:8080/api/customer";
+        const url = "http://168.181.184.148:8080/api/customer";
         const response = await fetch(url);
         const resultado = await response.json();
 
@@ -64,7 +64,7 @@ const FormuarioNuevoProyecto = ({ proyecto }) => {
     try {
       let response;
       if (proyecto != null) {
-        const url = `http://localhost:8080/api/project/${proyecto.id}`;
+        const url = `http://168.181.184.148:8080/api/project/${proyecto.id}`;
         response = await fetch(url, {
           method: "PUT",
           body: JSON.stringify(values),
@@ -74,7 +74,7 @@ const FormuarioNuevoProyecto = ({ proyecto }) => {
           },
         });
       } else {
-        const url = "http://localhost:8080/api/project";
+        const url = "http://168.181.184.148:8080/api/project";
         response = await fetch(url, {
           method: "POST",
           body: JSON.stringify(values),

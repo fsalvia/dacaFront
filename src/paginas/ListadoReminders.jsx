@@ -8,7 +8,7 @@ const ListadoReminders = ({ cliente }) => {
   useEffect(() => {
     const obtainRemindersApi = async () => {
       try {
-        const url = "http://localhost:8080/api/reminder?";
+        const url = "http://168.181.184.148:8080/api/reminder?";
         const response = await fetch(
           url +
             new URLSearchParams({
@@ -25,7 +25,7 @@ const ListadoReminders = ({ cliente }) => {
     };
     obtainRemindersApi();
   }, []);
-  console.log(reminder);
+  
   return (
     <div>
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">

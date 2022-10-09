@@ -17,11 +17,11 @@ const ListadoGastos = () => {
     const obtainInvoiceApi = async () => {
       try {
         const url =
-          "http://localhost:8080/api/incomingbill";
+          "http://168.181.184.148:8080/api/incomingbill";
         const response = await fetch(url);
         const resultado = await response.json();
 
-        setGastos(resultado.incomingBillResponseDTOList);
+        setGastos(resultado);
       } catch (error) {
         console.log(error);
       }
@@ -33,7 +33,7 @@ const ListadoGastos = () => {
     const confirmar = confirm("¿Deseas eliminar este gasto?");
     if (confirmar) {
       try {
-        const url = `http://localhost:8080/api/incomingbill/${id}`;
+        const url = `http://168.181.184.148:8080/api/incomingbill/${id}`;
         const response = await fetch(url, {
           method: "DELETE",
         });
