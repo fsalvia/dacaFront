@@ -7,34 +7,34 @@ import {
   useNavigate,
 } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import logo from "../assets/logoGrisClaro.png";
 
 const Layout = () => {
   const [open, setOpen] = useState(true);
   const [openCli, setOpenCli] = useState(false);
   const [openProy, setOpenProy] = useState(true);
   const [openFac, setOpenFac] = useState(true);
+  const [openPed, setOpenPed] = useState(true);
   const [openGas, setOpenGas] = useState(true);
   const [openRem, setOpenRem] = useState(true);
-  const navigate = useNavigate();
-
+  const [openUsu, setOpenUsu] = useState(true);
+  const [openOrd, setOpenOrd] = useState(true);
   const location = useLocation();
   const urlActual = location.pathname;
 
-  const { auth } = useAuth();
+  const { auth, cargando } = useAuth();
 
-  useEffect(() => {
-    {
-      auth.id == undefined ? navigate("/") : "";
-    }
-  }, []);
+  if (cargando)
+    return <div className="bg-gray-900 min-h-screen">'Cargando...'</div>;
 
   return (
     <div className="md:flex">
-      <div className="w-70 flex min-h-screen ">
+      {auth.id ? "" : <Navigate to="/" />}
+      <div className="w-70 flex min-h-screen select-none">
         <div className="w-64 overflow-y bg-gray-900">
           <div className="px-6 pt-8">
             <div className="flex items-center justify-between">
-              <img src="../src/assets/logoGrisClaro.png" alt="" />
+              <img src={logo} alt="" />
             </div>
           </div>
 
@@ -91,7 +91,11 @@ const Layout = () => {
                   onClick={() => setOpenCli(!openCli)}
                   className="flex transition-transform  hover:text-white list-none items-center justify-between w-full py-2 pl-2 pr-4 text-xs rounded hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800"
                 >
-                  <div className="flex items-center w-full ">
+                  <div
+                    className={`${
+                      openCli ? "text-white" : ""
+                    } flex items-center w-full`}
+                  >
                     <span className="flex">
                       <span>
                         <svg
@@ -188,7 +192,11 @@ const Layout = () => {
                   onClick={() => setOpenProy(!openProy)}
                   className="flex duration-300 hover:text-white list-none items-center justify-between w-full py-2 pl-2 pr-4 text-xs rounded hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800"
                 >
-                  <div className="flex items-center w-full">
+                  <div
+                    className={`${
+                      openProy ? "" : "text-white"
+                    } flex items-center w-full`}
+                  >
                     <span className="flex">
                       <svg
                         className="h-5 w-5"
@@ -203,7 +211,7 @@ const Layout = () => {
                           d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
                         />
                       </svg>
-                      <span className="px-1 py-0.5">Proyectos</span>
+                      <span className={` px-1 py-0.5`}>Proyectos</span>
                     </span>
                   </div>
                   <span>
@@ -261,7 +269,11 @@ const Layout = () => {
                   onClick={() => setOpenFac(!openFac)}
                   className="flex duration-300 hover:text-white list-none items-center justify-between w-full py-2 pl-2 pr-4 text-xs rounded hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800"
                 >
-                  <div className="flex items-center w-full">
+                  <div
+                    className={`${
+                      openFac ? "" : "text-white"
+                    } flex items-center w-full`}
+                  >
                     <span className="flex">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -332,7 +344,11 @@ const Layout = () => {
                   onClick={() => setOpenGas(!openGas)}
                   className="flex duration-300 hover:text-white list-none items-center justify-between w-full py-2 pl-2 pr-4 text-xs rounded hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800"
                 >
-                  <div className="flex items-center w-full">
+                  <div
+                    className={`${
+                      openGas ? "" : "text-white"
+                    } flex items-center w-full`}
+                  >
                     <span className="flex">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -403,7 +419,11 @@ const Layout = () => {
                   onClick={() => setOpenRem(!openRem)}
                   className="flex duration-300 hover:text-white list-none items-center justify-between w-full py-2 pl-2 pr-4 text-xs rounded hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800"
                 >
-                  <div className="flex items-center w-full">
+                  <div
+                    className={`${
+                      openRem ? "" : "text-white"
+                    } flex items-center w-full`}
+                  >
                     <span className="flex">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -472,12 +492,198 @@ const Layout = () => {
               <div className="px-6 pt-4">
                 <hr className="border-gray-700" />
               </div>
+
               <details className=" text-gray-500">
                 <summary
-                  onClick={() => setOpenCli(!openCli)}
+                  onClick={() => setOpenPed(!openPed)}
+                  className="flex duration-300 hover:text-white list-none items-center justify-between w-full py-2 pl-2 pr-4 text-xs rounded hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800"
+                >
+                  <div
+                    className={`${
+                      openPed ? "" : "text-white"
+                    } flex items-center w-full`}
+                  >
+                    <span className="flex">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12l-3-3m0 0l-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                        />
+                      </svg>
+
+                      <span className="px-1 py-0.5">Pedidos de Precios</span>
+                    </span>
+                  </div>
+                  <span>
+                    <svg
+                      className={`${
+                        openPed ? "" : "rotate-180"
+                      } duration-100 h-3 w-3`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+                <div className="pt-2 pl-4">
+                  <ul className="flex flex-col pl-2 text-gray-500 border-l border-gray-700">
+                    <li>
+                      <Link
+                        to="/pedidos/listado"
+                        className={`${
+                          urlActual === "/pedidos/listado"
+                            ? "text-gray-300"
+                            : " text-gray-500"
+                        } duration-300 inline-block w-full px-4 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white`}
+                      >
+                        Todos los Pedidos
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/pedidos/nuevo"
+                        className={`${
+                          urlActual === "/pedidos/nuevo"
+                            ? "text-gray-300"
+                            : " text-gray-500"
+                        } duration-300 inline-block w-full px-4 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white`}
+                      >
+                        Carga de Nuevo Pedido
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details className=" text-gray-500">
+                <summary
+                  onClick={() => setOpenOrd(!openOrd)}
+                  className="flex duration-300 hover:text-white list-none items-center justify-between w-full py-2 pl-2 pr-4 text-xs rounded hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800"
+                >
+                  <div
+                    className={`${
+                      openOrd ? "" : "text-white"
+                    } flex items-center w-full`}
+                  >
+                    <span className="flex">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-5 h-5"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+                        />
+                      </svg>
+
+                      <span className="px-1 py-0.5">Ordenes de Compra</span>
+                    </span>
+                  </div>
+                  <span>
+                    <svg
+                      className={`${
+                        openOrd ? "" : "rotate-180"
+                      } duration-100 h-3 w-3`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+                <div className="pt-2 pl-4">
+                  <ul className="flex flex-col pl-2 text-gray-500 border-l border-gray-700">
+                    <li>
+                      <Link
+                        to="/ordenes/listado"
+                        className={`${
+                          urlActual === "/ordenes/listado"
+                            ? "text-gray-300"
+                            : " text-gray-500"
+                        } duration-300 inline-block w-full px-4 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white`}
+                      >
+                        Todos las Ordenes
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/ordenes/nuevo"
+                        className={`${
+                          urlActual === "/ordenes/nuevo"
+                            ? "text-gray-300"
+                            : " text-gray-500"
+                        } duration-300 inline-block w-full px-4 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white`}
+                      >
+                        Generar Nueva Orden
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <Link
+                to="/ordenes-manufactura/"
+                className={`${
+                  urlActual === "/ordenes-manufactura"
+                    ? "text-gray-300"
+                    : " text-gray-500"
+                } duration-300 inline-block w-full px-2 py-2 text-xs rounded hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:text-white`}
+              >
+                <span className="flex">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-5 h-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"
+                    />
+                  </svg>
+                  <span className="px-1 py-0.5">Ordenes de Manufactura</span>
+                </span>
+              </Link>
+              <div className="px-6 pt-4">
+                <hr className="border-gray-700" />
+              </div>
+              <details className=" text-gray-500">
+                <summary
+                  onClick={() => setOpenUsu(!openUsu)}
                   className="flex transition-transform  hover:text-white list-none items-center justify-between w-full py-2 pl-2 pr-4 text-xs rounded hover:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:bg-gray-800"
                 >
-                  <div className="flex items-center w-full ">
+                  <div
+                    className={`${
+                      openUsu ? "" : "text-white"
+                    } flex items-center w-full`}
+                  >
                     <span className="flex">
                       <span>
                         <svg

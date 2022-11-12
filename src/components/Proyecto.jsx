@@ -20,6 +20,7 @@ const Proyecto = ({ proyecto, handleEliminar }) => {
     notes,
   } = proyecto;
 
+
   return (
     <tr className="border-b border-gray-800 hover:bg-gray-200">
       <td className="p-3">{name}</td>

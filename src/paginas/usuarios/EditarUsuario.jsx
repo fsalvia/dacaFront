@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import FormNuevoUsuario from "../../components/FormNuevoUsuario";
+import { BACKEND } from "../../constants/backend";
 
 const EditarUsuario = () => {
   const [usuario, setUsuario] = useState({});
@@ -11,7 +12,7 @@ const EditarUsuario = () => {
     setCargando(!cargando);
     const obtenerUsuario = async () => {
       try {
-        const url = import.meta.env.VITE_BACKEND_URL + `/api/users/${id}`;
+        const url = `${BACKEND}/api/users/${id}`;
         const response = await fetch(url);
         const respuesta = await response.json();
         setUsuario(respuesta);

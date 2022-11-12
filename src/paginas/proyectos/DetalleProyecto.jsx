@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ListadoReminders from "../ListadoReminders";
+import { BACKEND } from "../../constants/backend";
 
 const DetalleProyecto = () => {
   const [proyecto, setProyecto] = useState({});
@@ -9,7 +10,7 @@ const DetalleProyecto = () => {
   useEffect(() => {
     const obtenerProyecto = async () => {
       try {
-        const url = `http://168.181.184.148:8080/api/project/${id}`;
+        const url = `${BACKEND}/api/project/${id}`;
         const response = await fetch(url);
         const respuesta = await response.json();
         setProyecto(respuesta);
@@ -18,7 +19,6 @@ const DetalleProyecto = () => {
       }
     };
     obtenerProyecto();
-    console.log(proyecto);
   }, []);
 
   const formatter = new Intl.NumberFormat("ars", {

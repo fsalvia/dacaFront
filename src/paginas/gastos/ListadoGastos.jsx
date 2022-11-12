@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Gasto from "../../components/Gasto";
 import Paginacion from "../../components/Paginacion";
+import { BACKEND } from "../../constants/backend";
 
 const ListadoGastos = () => {
   const [gastos, setGastos] = useState([]);
@@ -11,13 +12,12 @@ const ListadoGastos = () => {
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentPosts = gastos.slice(firstPostIndex, lastPostIndex);
-  console.log(gastos);
 
   useEffect(() => {
     const obtainInvoiceApi = async () => {
       try {
         const url =
-          "http://168.181.184.148:8080/api/incomingbill";
+          `${BACKEND}/api/incomingbill`;
         const response = await fetch(url);
         const resultado = await response.json();
 
@@ -33,7 +33,7 @@ const ListadoGastos = () => {
     const confirmar = confirm("¿Deseas eliminar este gasto?");
     if (confirmar) {
       try {
-        const url = `http://168.181.184.148:8080/api/incomingbill/${id}`;
+        const url = `${BACKEND}/api/incomingbill/${id}`;
         const response = await fetch(url, {
           method: "DELETE",
         });

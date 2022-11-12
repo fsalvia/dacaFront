@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Alerta from "../../components/Alerta";
-import axios from 'axios';
+import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import { BACKEND } from "../../constants/backend";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -10,8 +11,8 @@ const LoginForm = () => {
   const [alerta, setAlerta] = useState({});
 
   const navigate = useNavigate();
-  
-  const {setAuth} = useAuth();
+
+  const { setAuth } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,15 +22,16 @@ const LoginForm = () => {
         msg: "Todos los campos son obligatorios.",
         error: true,
       });
-      return
+      return;
     }
 
     try {
-      const { data } = await axios.post(import.meta.env.VITE_BACKEND_URL+'/api/login', {username, password})
-      setAlerta({})
-      setAuth(data)
+      const url = `${BACKEND}/api/login`;
+      const { data } = await axios.post(url, { username, password });
+      setAlerta({});
+      setAuth(data);
       console.log(data);
-      localStorage.setItem('daca-token',data.token)
+      localStorage.setItem("daca-token", data.token);
       navigate("/dashboard");
     } catch (error) {
       setAlerta({
@@ -37,10 +39,9 @@ const LoginForm = () => {
         error: true,
       });
     }
-
   };
 
-  const {msg} = alerta
+  const { msg } = alerta;
 
   return (
     <div className="lg:w-2/5 md:w-3/5 w-3/4 mx-auto">
@@ -48,8 +49,10 @@ const LoginForm = () => {
         <div className="font-semibold text-2xl text-white text-center mt-5">
           <h1>Inicia sesión para acceder al Sistema</h1>
         </div>
-        <div className="lg:pl-16 lg:pr-16 md:pl-10 md:pr-10 pl-2 pr-2 mt-5 mb-5">{msg && <Alerta alerta={alerta} />}</div>
-        
+        <div className="lg:pl-16 lg:pr-16 md:pl-10 md:pr-10 pl-2 pr-2 mt-5 mb-5">
+          {msg && <Alerta alerta={alerta} />}
+        </div>
+
         <form
           className="lg:pl-16 lg:pr-16 md:pl-10 md:pr-10 pl-2 pr-2 mt-5 mb-5"
           onSubmit={handleSubmit}

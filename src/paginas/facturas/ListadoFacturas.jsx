@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Factura from "../../components/Factura";
 import Paginacion from "../../components/Paginacion";
+import { BACKEND } from "../../constants/backend";
 
 const ListadoFacturas = () => {
   const [facturas, setFacturas] = useState([]);
@@ -11,13 +12,12 @@ const ListadoFacturas = () => {
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentPosts = facturas.slice(firstPostIndex, lastPostIndex);
-  console.log(currentPosts);
 
   useEffect(() => {
     const obtainInvoiceApi = async () => {
       try {
         const url =
-          "http://168.181.184.148:8080/api/invoice";
+          `${BACKEND}/api/invoice`;
         const response = await fetch(url);
         const resultado = await response.json();
 
@@ -33,7 +33,7 @@ const ListadoFacturas = () => {
     const confirmar = confirm("¿Deseas eliminar esta factura?");
     if (confirmar) {
       try {
-        const url = `http://168.181.184.148:8080/api/invoice/${id}`;
+        const url = `${BACKEND}/api/invoice/${id}`;
         const response = await fetch(url, {
           method: "DELETE",
         });

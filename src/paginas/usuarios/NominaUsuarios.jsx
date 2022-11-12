@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Usuario from "../../components/Usuario";
 import Paginacion from "../../components/Paginacion";
+import { BACKEND } from "../../constants/backend";
 
 const NominaUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -15,7 +16,7 @@ const NominaUsuarios = () => {
   useEffect(() => {
     const obtainUsersApi = async () => {
       try {
-        const url = import.meta.env.VITE_BACKEND_URL+'/api/users';
+        const url = `${BACKEND}/api/users`;
         const response = await fetch(url);
         const resultado = await response.json();
         
@@ -31,7 +32,7 @@ const NominaUsuarios = () => {
     const confirmar = confirm('¿Deseas eliminar este usuario?')
     if (confirmar) {
       try {
-        const url = import.meta.env.VITE_BACKEND_URL+`/api/users/${id}`
+        const url = `${BACKEND}/api/users/${id}`
         const response = await fetch(url, {
           method: 'DELETE'
         })

@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { BACKEND } from "../constants/backend";
 
 const Formuario = ({ cliente }) => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Formuario = ({ cliente }) => {
     try {
       let response;
       if (cliente.id) {
-        const url = `http://168.181.184.148:8080/api/customer/${cliente.id}`;
+        const url = `${BACKEND}/api/customer/${cliente.id}`;
 
         response = await fetch(url, {
           method: "PUT",
@@ -39,7 +40,7 @@ const Formuario = ({ cliente }) => {
           },
         });
       } else {
-        const url = "http://168.181.184.148:8080/api/customer";
+        const url = `${BACKEND}/api/customer`;
 
         response = await fetch(url, {
           method: "POST",

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Cliente from '../../components/Cliente';
 import Paginacion from "../../components/Paginacion";
+import { BACKEND } from '../../constants/backend';
 
 
 const NominaClientes = () => {
@@ -16,7 +17,7 @@ const NominaClientes = () => {
   useEffect(() => {
     const obtainCustomersApi = async () => {
       try {
-        const url = "http://168.181.184.148:8080/api/customer";
+        const url = `${BACKEND}/api/customer`;
         const response = await fetch(url);
         const resultado = await response.json();
         
@@ -32,7 +33,7 @@ const NominaClientes = () => {
     const confirmar = confirm('¿Deseas eliminar este cliente?')
     if (confirmar) {
       try {
-        const url = `http://168.181.184.148:8080/api/customer/${id}`
+        const url = `${BACKEND}/api/customer/${id}`
         const response = await fetch(url, {
           method: 'DELETE'
         })

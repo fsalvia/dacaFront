@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ListadoReminders from "../ListadoReminders";
+import { BACKEND } from "../../constants/backend";
 
 const DetalleUsuario = () => {
   const [usuario, setUsuario] = useState({});
@@ -12,7 +13,7 @@ const DetalleUsuario = () => {
     setCargando(!cargando);
     const obtenerUsuario = async () => {
       try {
-        const url = import.meta.env.VITE_BACKEND_URL+`/api/users/${id}`;
+        const url = `${BACKEND}/api/users/${id}`;
         const response = await fetch(url);
         const respuesta = await response.json();
         setUsuario(respuesta);

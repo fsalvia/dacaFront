@@ -3,6 +3,7 @@ import { Formik, Form, Field } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import ClienteLite from "./ClienteLite";
+import { BACKEND } from "../constants/backend";
 
 const FormuarioNuevoProyecto = ({ proyecto }) => {
   const [clientes, setClientes] = useState([]);
@@ -10,7 +11,7 @@ const FormuarioNuevoProyecto = ({ proyecto }) => {
   useEffect(() => {
     const obtainCustomersApi = async () => {
       try {
-        const url = "http://168.181.184.148:8080/api/customer";
+        const url = `${BACKEND}/api/customer`;
         const response = await fetch(url);
         const resultado = await response.json();
 
@@ -64,7 +65,7 @@ const FormuarioNuevoProyecto = ({ proyecto }) => {
     try {
       let response;
       if (proyecto != null) {
-        const url = `http://168.181.184.148:8080/api/project/${proyecto.id}`;
+        const url = `${BACKEND}/api/project/${proyecto.id}`;
         response = await fetch(url, {
           method: "PUT",
           body: JSON.stringify(values),
@@ -74,7 +75,7 @@ const FormuarioNuevoProyecto = ({ proyecto }) => {
           },
         });
       } else {
-        const url = "http://168.181.184.148:8080/api/project";
+        const url = `${BACKEND}/api/project`;
         response = await fetch(url, {
           method: "POST",
           body: JSON.stringify(values),

@@ -1,0 +1,1 @@
+export const BACKEND = process.env.NODE_ENV === 'production' ? 'http://168.181.184.148:8080' : 'http://localhost:8080';

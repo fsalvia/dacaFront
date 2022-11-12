@@ -11,6 +11,7 @@ import {
   Legend,
   Filler,
 } from "chart.js";
+import { BACKEND } from "../constants/backend";
 
 import { Line } from "react-chartjs-2";
 ChartJS.register(
@@ -33,7 +34,7 @@ const GraficoGanancias = () => {
   useEffect(() => {
     const obtainDashboardApi = async () => {
       try {
-        const url = "http://168.181.184.148:8080/api/dashboard/last6MonthBilling";
+        const url = `${BACKEND}/api/dashboard/last6MonthBilling`;
         const response = await fetch(url);
         const resultado = await response.json();
         setFacturas(resultado);
@@ -67,7 +68,7 @@ const GraficoGanancias = () => {
   const data = useMemo(function () {
     let facturado = [];
     let meses = [];
-    axios.get("http://168.181.184.148:8080/api/dashboard/last6MonthBilling")
+    axios.get(`${BACKEND}/api/dashboard/last6MonthBilling`)
     .then(res => {
       facturado.push(res.data[5].total_income);
       facturado.push(res.data[4].total_income);
@@ -85,7 +86,6 @@ const GraficoGanancias = () => {
     .catch(err => {
       console.log(err)
     });
-    console.log(meses);
     
     return {
       labels:meses,

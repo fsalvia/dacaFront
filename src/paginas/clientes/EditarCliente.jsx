@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Formuario from "../../components/FormNuevoCliente";
+import { BACKEND } from "../../constants/backend";
 
 const EditarCliente = () => {
 
@@ -12,7 +13,7 @@ const EditarCliente = () => {
     setCargando(!cargando);
     const obtenerCliente = async () => {
       try {
-        const url = `http://168.181.184.148:8080/api/customer/${id}`;
+        const url = `${BACKEND}/api/customer/${id}`;
         const response = await fetch(url);
         const respuesta = await response.json();
         setCliente(respuesta);

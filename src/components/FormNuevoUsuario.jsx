@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { BACKEND } from "../constants/backend";
 
 const FormNuevoUsuario = ({ usuario }) => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const FormNuevoUsuario = ({ usuario }) => {
       let response;
       if (usuario.id) {
         const url =
-          import.meta.env.VITE_BACKEND_URL + `/api/users/${usuario.id}`;
+          `${BACKEND}/api/users/${usuario.id}`;
 
         response = await fetch(url, {
           method: "PUT",
@@ -33,7 +34,7 @@ const FormNuevoUsuario = ({ usuario }) => {
           },
         });
       } else {
-        const url = import.meta.env.VITE_BACKEND_URL + "/api/users";
+        const url = `${BACKEND}/api/users`;
 
         response = await fetch(url, {
           method: "POST",

@@ -2,6 +2,7 @@ import {useState} from "react";
 import { Link } from "react-router-dom";
 import Alerta from "../../components/Alerta";
 import axios from 'axios'
+import { BACKEND } from "../../constants/backend";
 
 
 const Registrar = () => {
@@ -42,7 +43,7 @@ const Registrar = () => {
         setAlerta({})
 
         try {
-          const response = await axios.post(import.meta.env.VITE_BACKEND_URL+'/api/user',{name, lastname, email, username, password})
+          const response = await axios.post(`${BACKEND}/api/user`,{name, lastname, email, username, password})
           setAlerta({
             //msg: data.msg,
             error: false

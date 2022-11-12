@@ -29,6 +29,16 @@ import EditarUsuario from "./paginas/usuarios/EditarUsuario";
 import DetalleUsuario from "./paginas/usuarios/DetalleUsuario";
 import NuevoUsuario from "./paginas/usuarios/NuevoUsuario";
 import { AuthProvider } from "./context/AuthProvider";
+import NuevoPedido from "./paginas/pedidos/NuevoPedido";
+import ListadoPedidos from "./paginas/pedidos/ListadoPedidos";
+import EditarPedido from "./paginas/pedidos/EditarPedido";
+import DetallePedido from "./paginas/pedidos/DetallePedido";
+import NuevaOrden from "./paginas/ordenesCompra/NuevaOrden";
+import ListadoOrdenes from "./paginas/ordenesCompra/ListadoOrdenes";
+import EditarOrden from "./paginas/ordenesCompra/EditarOrden";
+import DetallesOrden from "./paginas/ordenesCompra/DetallesOrden";
+import Menu from "./paginas/ordenesManufactura/Menu";
+import ListadoVidrio from "./paginas/ordenesManufactura/ListadoVidrio";
 
 function App() {
   return (
@@ -85,6 +95,24 @@ function App() {
             <Route path="nomina" element={<NominaUsuarios />} />
             <Route path="editar/:id" element={<EditarUsuario />} />
             <Route path=":id" element={<DetalleUsuario />} />
+          </Route>
+          <Route path="/pedidos" element={<Layout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="nuevo" element={<NuevoPedido />} />
+            <Route path="listado" element={<ListadoPedidos />} />
+            <Route path="editar/:id" element={<EditarPedido />} />
+            <Route path=":id" element={<DetallePedido />} />
+          </Route>
+          <Route path="/ordenes" element={<Layout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="nuevo" element={<NuevaOrden />} />
+            <Route path="listado" element={<ListadoOrdenes />} />
+            <Route path="editar/:id" element={<EditarOrden />} />
+            <Route path=":id" element={<DetallesOrden />} />
+          </Route>
+          <Route path="/ordenes-manufactura" element={<Layout />}>
+            <Route index element={<Menu />} />
+            <Route path="vidrio" element={<ListadoVidrio />} />
           </Route>
         </Routes>
       </AuthProvider>
