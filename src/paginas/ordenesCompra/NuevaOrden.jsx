@@ -6,6 +6,9 @@ import ProveedorLite from "../../components/ProveedorLite";
 import ProyectoLite from "../../components/ProyectoLite";
 import Item from "../../components/Item";
 import useAuth from "../../hooks/useAuth";
+import Table from "../../components/table/Table";
+import { useAxios } from "../../hooks/useAxios";
+import Spinner from "../../components/Spinner";
 
 const NuevaOrden = () => {
   const [pedidos, setPedidos] = useState([]);
@@ -27,21 +30,51 @@ const NuevaOrden = () => {
   const [type, setType] = useState("OC");
   const { auth, cargando } = useAuth();
 
+  const COLUMNS = [
+              'Fecha',
+              'Proveedor',
+              'Proyecto',
+              'Cant. Items',
+              'Relevancia',
+              'Estado',
+              'Observaciones',
+              'Cond. Venta',
+              'Acciones'
+  ];
+
+  const handlerPage = async (page) => {
+    execute({
+      params: {
+        status: "paga",
+        page: page,
+        offset: 15,
+      },
+    });
+  };
+
+  const handleRefresh = () => {
+    console.log("ejecute el refresh");
+    execute({
+      method: "GET",
+      params: {
+        status: "paga",
+        page: 0,
+        offset: 15,
+      },
+    });
+  };
+
+  
+
   const navigate = useNavigate();
   const urlActual = location.pathname;
-  useEffect(() => {
-    const obtainApprovedQuotesApi = async () => {
-      try {
-        const url = `${BACKEND}/api/quote?status=Aprobado`;
-        const response = await fetch(url);
-        const resultado = await response.json();
-        setPedidos(resultado);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    obtainApprovedQuotesApi();
-  }, []);
+ 
+
+  const { data, error, loading, execute } = useAxios({
+    url: "/api/quote",
+    method: "GET",
+    params: { status: "Aprobado", page: 0, offset: 5 },
+  });
   function handlePrecarga(pedido) {
     const {
       id,
@@ -119,11 +152,14 @@ const NuevaOrden = () => {
   useEffect(() => {
     const obtainProjectsApi = async () => {
       try {
-        const url = `${BACKEND}/api/project`;
-        const response = await fetch(url);
+        const url = `${BACKEND}/api/project?`;
+        const response = await fetch(url +  new URLSearchParams({
+          page:0,
+          offset:1000
+        }));
         const resultado = await response.json();
 
-        setProyecto(resultado);
+        setProyecto(resultado.items);
       } catch (error) {
         console.log(error);
       }
@@ -131,11 +167,14 @@ const NuevaOrden = () => {
     obtainProjectsApi();
     const obtainSuppliersApi = async () => {
       try {
-        const url = `${BACKEND}/api/supplier`;
-        const response = await fetch(url);
+        const url = `${BACKEND}/api/supplier?`;
+        const response = await fetch(url +  new URLSearchParams({
+          page:0,
+          offset:1000
+        }));
         const resultado = await response.json();
 
-        setProveedor(resultado);
+        setProveedor(resultado.items);
       } catch (error) {
         console.log(error);
       }
@@ -152,7 +191,7 @@ const NuevaOrden = () => {
     console.log(itemList);
   }
 
-  
+  if (loading) return <Spinner></Spinner>;
 
   return (
     <>
@@ -163,31 +202,26 @@ const NuevaOrden = () => {
         <p className="mt-2 text-xl text-gray-300">
           Pedidos Aprobados, pendientes de OC
         </p>
-
-        <table className="w-full mt-5 table-auto shadow bg-gray-300 rounded-lg overflow-hidden">
-          <thead className="bg-gray-800 text-gray-300">
-            <tr>
-              <th className="p-2">Fecha</th>
-              <th className="p-2">Proveedor</th>
-              <th className="p-2">Proyecto</th>
-              <th className="p-2">Cant. Items</th>
-              <th className="p-2">Relevancia</th>
-              <th className="p-2">Estado</th>
-              <th className="p-2">Observaciones</th>
-              <th className="p-2">Cond. Venta</th>
-              <th className="p-2">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pedidos.map((pedido) => (
-              <Pedido
-                key={pedido.id}
-                pedido={pedido}
-                handlePrecarga={handlePrecarga}
-              />
-            ))}
-          </tbody>
-        </table>
+        <Table
+        columns={COLUMNS}
+        pagination={{
+          totalPages: data.totalPages - 1,
+          actualPage: data.page,
+          handlerChangePage: handlerPage,
+        }}
+      >
+        <tbody>
+          {data.items.map((item) => (
+            <Pedido
+              pedido={item}
+              key={item.id}
+              handleRefresh={handleRefresh}
+              handlePrecarga={handlePrecarga}
+            />
+          ))}
+        </tbody>
+      </Table>
+        
       </div>
       <div className="pl-6">
         <div className="p-6">

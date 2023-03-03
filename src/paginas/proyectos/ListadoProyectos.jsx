@@ -1,74 +1,81 @@
+
 import { useEffect, useState } from "react";
 import Proyecto from "../../components/Proyecto";
+import Spinner from "../../components/Spinner";
+import Table from "../../components/table/Table";
 import { BACKEND } from "../../constants/backend";
+import { useAxios } from "../../hooks/useAxios";
 
 const ListadoProyectos = () => {
   const [proyectos, setProyectos] = useState([]);
+  const { data, error, loading, execute } = useAxios({
+    url: "/api/project",
+    method: "GET",
+    params: { page: 0, offset: 15 },
+  });
 
-  useEffect(() => {
-    const obtainProjectsApi = async () => {
-      try {
-        const url = `${BACKEND}/api/project`;
-        const response = await fetch(url);
-        const resultado = await response.json();
-        setProyectos(resultado);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    obtainProjectsApi();
-  }, []);
+  const COLUMNS = [
+    "Nombre",
+    "Dirección",
+    "Localidad",
+    "Cliente",
+    "Cant. m2",
+    "Cant. Móodulos",
+    "Cant. Aluminio",
+    "Porcentaje de Avance",
+    "Fecha de OC",
+    "Fecha de Inicio",
+    "Ultima Certificación",
+    "Acciones",
+  ];
 
-  const handleEliminar = async (id) => {
-    const confirmar = confirm("¿Deseas eliminar este proyecto?");
-    if (confirmar) {
-      try {
-        const url = `${BACKEND}/api/project/${id}`;
-        const response = await fetch(url, {
-          method: "DELETE",
-        });
-        await response.json();
-        const arrayProyectos = proyectos.filter((project) => project.id !== id);
-        setProyectos(arrayProyectos);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+  const handlerPage = async (page) => {
+    execute({
+      params: {
+        page: page,
+        offset: 15,
+      },
+    });
   };
+
+  const handleRefresh = () => {
+    console.log("ejecute el refresh");
+    execute({
+      method: "GET",
+      params: {
+        page: 0,
+        offset: 15,
+      },
+    });
+  };
+
+  if (loading) return <Spinner></Spinner>;
+  console.log(data);
   return (
     <div className="w-full pl-12 pr-8 pt-6">
       <h1 className="font-semibold text-2xl text-white">
         Listado de Proyectos
       </h1>
       <p className="mt-2 text-xl text-gray-300">Administra los Proyectos.</p>
-
-      <table className="w-full mt-5 table-auto shadow bg-gray-300 rounded-lg overflow-hidden">
-        <thead className="bg-gray-800 text-gray-300">
-          <tr>
-            <th className="p-2">Nombre</th>
-            <th className="p-2">Dirección</th>
-            <th className="p-2">Localidad</th>
-            <th className="p-2">Cliente</th>
-            <th className="p-2">Cant. m2</th>
-            <th className="p-2">Cant. Móodulos</th>
-            <th className="p-2">Cant. Aluminio</th>
-            <th className="p-2">Porcentaje de Avance</th>
-            <th className="p-2">Fecha de OC</th>
-            <th className="p-2">Fecha de Inicio</th>
-            <th className="p-2">Ultima Certificación</th>
-            <th className="p-2">Acciones</th>
-          </tr>
-        </thead>
+      <Table
+        columns={COLUMNS}
+        pagination={{
+          totalPages: data.totalPages - 1,
+          actualPage: data.page,
+          handlerChangePage: handlerPage,
+        }}
+      >
         <tbody>
-          {proyectos.map((proyecto) => (
+          {data.items.map((item) => (
             <Proyecto
-              key={proyecto.id}
-              proyecto={proyecto}
-              handleEliminar={handleEliminar}
+              proyecto={item}
+              key={item.id}
+              handleRefresh={handleRefresh}
             />
           ))}
         </tbody>
-      </table>
+      </Table>
+      
     </div>
   );
 };

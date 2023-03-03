@@ -1,95 +1,90 @@
 import { useEffect, useState } from "react";
 import Factura from "../../components/Factura";
-import Paginacion from "../../components/Paginacion";
-import { BACKEND } from "../../constants/backend";
+import Spinner from "../../components/Spinner";
+import { useAxios } from "../../hooks/useAxios";
+import Table from "../../components/table/Table";
+import FacturaFilterModal from "../../components/FacturaFilterModal";
+import NuevaFacturaModal from "../../components/NuevaFacturaModal";
 
 const ListadoFacturas = () => {
-  const [facturas, setFacturas] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostPerPage] = useState(18);
+  const { data, error, loading, execute } = useAxios({
+    url: "/api/invoice",
+    method: "GET",
+    params: { page: 0, offset: 15 },
+  });
 
-  const lastPostIndex = currentPage * postsPerPage;
-  const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentPosts = facturas.slice(firstPostIndex, lastPostIndex);
+  const COLUMNS = [
+    "Número de Factura",
+    "Fecha de Emisión",
+    "Tipo",
+    "Cliente",
+    "Condición de Venta",
+    "Estado",
+    "Moneda",
+    "Neto",
+    "IVA",
+    "Monto",
+    "Acciones",
+  ];
 
-  useEffect(() => {
-    const obtainInvoiceApi = async () => {
-      try {
-        const url =
-          `${BACKEND}/api/invoice`;
-        const response = await fetch(url);
-        const resultado = await response.json();
-
-        setFacturas(resultado);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    obtainInvoiceApi();
-  }, []);
-
-  const handleEliminar = async (id) => {
-    const confirmar = confirm("¿Deseas eliminar esta factura?");
-    if (confirmar) {
-      try {
-        const url = `${BACKEND}/api/invoice/${id}`;
-        const response = await fetch(url, {
-          method: "DELETE",
-        });
-        await response.json();
-        const arrayFacturas = facturas.filter((factura) => factura.id !== id);
-        setFacturas(arrayFacturas);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+  const handlerPage = async (page) => {
+    execute({
+      params: {
+        page: page,
+        offset: 15,
+      },
+    });
   };
+
+  const handleRefresh = () => {
+    console.log("ejecute el refresh");
+    execute({
+      method: "GET",
+      params: {
+        status: "paga",
+        page: 0,
+        offset: 15,
+      },
+    });
+  };
+
+  if (loading) return <Spinner></Spinner>;
 
   return (
     <div className="w-full pl-12 pr-8 pt-6">
-      <h1 className="font-semibold text-2xl text-white">Listado de Facturas</h1>
-      <p className="mt-2 text-xl text-gray-300">Administra las Facturas.</p>
+      <div className="flex justify-start">
+        <div className="block">
+          <h1 className="font-semibold text-2xl text-white">
+            Listado de Comprobantes Emitidos
+          </h1>
+          <p className="mt-2 text-xl text-gray-300">
+            Administra los Comprobantes.
+          </p>
+        </div>
+        <div className="flex gap-8 items-center justify-center ml-4">
+          <NuevaFacturaModal />
+          <FacturaFilterModal reload={handleRefresh} execute={execute} />
+        </div>
+      </div>
 
-      <table className="w-full mt-5 table-auto shadow bg-gray-300 rounded-t-lg overflow-hidden">
-        <thead className="bg-gray-800 text-gray-300">
-          <tr>
-            <th className="p-2">Número de Factura</th>
-            <th className="p-2">Fecha de Emisión</th>
-            <th className="p-2">Tipo</th>
-            <th className="p-2">Cliente</th>
-            <th className="p-2">Condición de Venta</th>
-            <th className="p-2">Estado</th>
-            <th className="p-2">Moneda</th>
-            <th className="p-2">Neto</th>
-            <th className="p-2">IVA</th>
-            <th className="p-2">Monto</th>
-            <th className="w-32">Acciones</th>
-          </tr>
-        </thead>
+      <Table
+        columns={COLUMNS}
+        pagination={{
+          totalPages: data.totalPages - 1,
+          actualPage: data.page,
+          handlerChangePage: handlerPage,
+        }}
+      >
         <tbody>
-          {currentPosts.map((factura) => (
+          {data.items.map((item) => (
             <Factura
-              key={factura.id}
-              factura={factura}
-              handleEliminar={handleEliminar}
+              factura={item}
+              key={item.id}
+              handleRefresh={handleRefresh}
             />
           ))}
         </tbody>
-      </table>
-
-      <div className="bg-gray-800 text-gray-300 rounded-b-lg text-center p-2 h-11">
-        <nav>
-          <ul className="inline-flex -space-x-px">
-            <Paginacion
-              totalPosts={facturas.length}
-              postsPerPage={postsPerPage}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-            />
-          </ul>
-        </nav>
-      </div>
+      </Table>
     </div>
   );
 };

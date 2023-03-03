@@ -11,11 +11,17 @@ const FormuarioNuevoProyecto = ({ proyecto }) => {
   useEffect(() => {
     const obtainCustomersApi = async () => {
       try {
-        const url = `${BACKEND}/api/customer`;
-        const response = await fetch(url);
+        const url = `${BACKEND}/api/customer?`;
+        const response = await fetch(
+          url +
+            new URLSearchParams({
+              page: 0,
+              offset: 1000,
+            })
+        );
         const resultado = await response.json();
 
-        setClientes(resultado);
+        setClientes(resultado.items);
       } catch (error) {
         console.log(error);
       }
