@@ -872,7 +872,7 @@ const Layout = () => {
                 />
               </div>
               <div className="flex flex-col pl-3">
-                <div className="text-sm text-gray-50">Gonzalo Salvia</div>
+                <div className="text-sm text-gray-50">Mario Rodriguez</div>
                 <span className="text-xs text-[#acacb0] font-light tracking-tight">
                   gsalvia@grupodaca.com.ar
                 </span>
