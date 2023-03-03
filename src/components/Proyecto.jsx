@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
+import DeleteModal from "./DeleteModal";
 
-const Proyecto = ({ proyecto, handleEliminar }) => {
+const Proyecto = ({ proyecto, handleRefresh }) => {
   const navigate = useNavigate();
 
   const {
@@ -20,7 +21,6 @@ const Proyecto = ({ proyecto, handleEliminar }) => {
     notes,
   } = proyecto;
 
-
   return (
     <tr className="border-b border-gray-800 hover:bg-gray-200">
       <td className="p-3">{name}</td>
@@ -34,9 +34,11 @@ const Proyecto = ({ proyecto, handleEliminar }) => {
       <td className="p-3">{purchaseOrderDate}</td>
       <td className="p-3">{startDate}</td>
       <td className="p-3">{lastCertificationDate}</td>
-      <td className="pt-5 p-2 flex align-middle">
-        <button className="bg-green-600 rounded-md p-0.5 text-gray-600 hover:bg-green-400"
-        onClick={() => navigate(`../${id}`)}
+      <td className="w-24 mt-1 flex justify-evenly">
+        <div>
+          <button
+          className="bg-green-600 rounded-md p-0.5 text-gray-600 hover:bg-green-400"
+          onClick={() => navigate(`../${id}`)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +46,7 @@ const Proyecto = ({ proyecto, handleEliminar }) => {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-5 h-5"
           >
             <path
               strokeLinecap="round"
@@ -58,10 +60,15 @@ const Proyecto = ({ proyecto, handleEliminar }) => {
             />
           </svg>
         </button>
-        <button className="bg-yellow-600 rounded-md p-0.5 ml-2 text-gray-600 hover:bg-yellow-400" onClick={() => navigate(`/proyectos/editar/${id}`)}>
+        </div>
+        <div>
+          <button
+          className="bg-yellow-600 rounded-md p-0.5 text-gray-600 hover:bg-yellow-400"
+          onClick={() => navigate(`/proyectos/editar/${id}`)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
+            className="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -74,22 +81,13 @@ const Proyecto = ({ proyecto, handleEliminar }) => {
             />
           </svg>
         </button>
-        <button className="bg-red-600 rounded-md p-0.5 ml-2 text-gray-600 hover:bg-red-400" onClick={() => handleEliminar(id)}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-            />
-          </svg>
-        </button>
+        </div>
+        
+        <DeleteModal
+          element={proyecto}
+          reload={handleRefresh}
+          elementType={"project"}
+        />
       </td>
     </tr>
   );

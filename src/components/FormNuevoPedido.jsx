@@ -26,11 +26,17 @@ const FormNuevoPedido = ({ pedido }) => {
   useEffect(() => {
     const obtainProjectsApi = async () => {
       try {
-        const url = `${BACKEND}/api/project`;
-        const response = await fetch(url);
+        const url = `${BACKEND}/api/project?`;
+        const response = await fetch(
+          url +
+            new URLSearchParams({
+              page: 0,
+              offset: 1000,
+            })
+        );
         const resultado = await response.json();
 
-        setProyecto(resultado);
+        setProyecto(resultado.items);
       } catch (error) {
         console.log(error);
       }
@@ -38,11 +44,17 @@ const FormNuevoPedido = ({ pedido }) => {
     obtainProjectsApi();
     const obtainSuppliersApi = async () => {
       try {
-        const url = `${BACKEND}/api/supplier`;
-        const response = await fetch(url);
+        const url = `${BACKEND}/api/supplier?`;
+        const response = await fetch(
+          url +
+            new URLSearchParams({
+              page: 0,
+              offset: 1000,
+            })
+        );
         const resultado = await response.json();
 
-        setProveedor(resultado);
+        setProveedor(resultado.items);
       } catch (error) {
         console.log(error);
       }

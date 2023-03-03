@@ -4,6 +4,8 @@ import Alerta from "../../components/Alerta";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import { BACKEND } from "../../constants/backend";
+import styled from "styled-components";
+import logo from "../../assets/logoLite.png";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -44,17 +46,23 @@ const LoginForm = () => {
   const { msg } = alerta;
 
   return (
-    <div className="lg:w-2/5 md:w-3/5 w-3/4 mx-auto">
-      <div className="mx-auto md:p-5 p-2  bg-gray-700 rounded-lg shadow">
-        <div className="font-semibold text-2xl text-white text-center mt-5">
-          <h1>Inicia sesión para acceder al Sistema</h1>
+    <div className="lg:w-2/5 md:w-3/5 w-5/6 mx-auto my-20 lg:my-44 ">
+      <StyledDiv className="mx-auto md:p-4 p-2  bg-gray-700 rounded-lg shadow-lg ">
+        <div className="font-semibold  flex">
+          <div>
+            <img src={logo} alt="logo" className=" h-16 sm:w-16 md:h-24 md:w-24 lg:h-24 lg:w-24 xl:h-24 xl:w-24 md:aspect-square" />
+          </div>
+          <div className="ml-5 text-xl md:text-2xl lg:text-2xl xl:text-3xl text-white mt-3">
+            <h1>Bienvenido a DACA-SYSTEM</h1>
+            <h2 className="text-sm md:text-lg lg:text-lg xl:text-xl text-gray-300">Inicia sesión para acceder al Sistema</h2>
+          </div>
         </div>
         <div className="lg:pl-16 lg:pr-16 md:pl-10 md:pr-10 pl-2 pr-2 mt-5 mb-5">
           {msg && <Alerta alerta={alerta} />}
         </div>
 
         <form
-          className="lg:pl-16 lg:pr-16 md:pl-10 md:pr-10 pl-2 pr-2 mt-5 mb-5"
+          className="lg:pl-16 lg:pr-16 md:pl-10 md:pr-10 pl-2 pr-2 mt-5 mb-3"
           onSubmit={handleSubmit}
         >
           <label
@@ -91,23 +99,22 @@ const LoginForm = () => {
             className="bg-green-700 w-full p-2 rounded-lg shadow text-gray-200 font-semibold hover:bg-green-600 hover:text-gray-100 hover:cursor-pointer transition-colors mt-5"
           />
         </form>
-      </div>
-      <nav className="lg:flex lg:justify-between">
+        <nav className="lg:flex lg:justify-center">
         <Link
-          className="block text-center my-3 mx-5 text-gray-400 text-sm"
-          to="registrar"
-        >
-          No tienes una cuenta? Registrate
-        </Link>
-        <Link
-          className="block text-center my-3 mx-5 text-gray-400 text-sm"
+          className="block text-center text-gray-300 text-sm"
           to="passwordReset"
         >
-          Olvidé mi password
+          ¿Olvidaste tu contraseña?
         </Link>
       </nav>
+      </StyledDiv>
+      
     </div>
   );
 };
+
+const StyledDiv = styled.div`
+  box-shadow: 0 0 5px white, 0 0 15px white, 0 0 30px white;
+`;
 
 export default LoginForm;

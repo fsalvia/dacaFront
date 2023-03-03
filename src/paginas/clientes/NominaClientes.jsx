@@ -1,93 +1,87 @@
-import { useEffect, useState } from 'react'
-import Cliente from '../../components/Cliente';
-import Paginacion from "../../components/Paginacion";
-import { BACKEND } from '../../constants/backend';
+import { useEffect, useState } from "react";
+import Cliente from "../../components/Cliente";
+import { useAxios } from "../../hooks/useAxios";
+import Table from "../../components/table/Table";
+import Spinner from "../../components/Spinner";
 
 
-const NominaClientes = () => {
-  const [clientes, setClientes] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage, setPostPerPage] = useState(18);
+const NominaClientes = ({
+  show = true,
+  value = "",
+  onChange,
+  collapsible = false,
+}) => {
 
-  const lastPostIndex = currentPage * postsPerPage;
-  const firstPostIndex = lastPostIndex - postsPerPage;
-  const currentPosts = clientes.slice(firstPostIndex, lastPostIndex);
+  const { data, error, loading, execute } = useAxios({
+    url: "/api/customer",
+    method: "GET",
+    params: { page: 0, offset: 15 },
+  });
 
-  useEffect(() => {
-    const obtainCustomersApi = async () => {
-      try {
-        const url = `${BACKEND}/api/customer`;
-        const response = await fetch(url);
-        const resultado = await response.json();
-        
-        setClientes(resultado);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    obtainCustomersApi()
-  },[])
 
-  const handleEliminar = async (id) => {
-    const confirmar = confirm('¿Deseas eliminar este cliente?')
-    if (confirmar) {
-      try {
-        const url = `${BACKEND}/api/customer/${id}`
-        const response = await fetch(url, {
-          method: 'DELETE'
-        })
-        await response.json()
-        const arrayClientes = clientes.filter( cliente => cliente.id !== id)
-        setClientes(arrayClientes)
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
 
+  const COLUMNS = [
+    "Razón Social",
+    "CUIT",
+    "Contacto",
+    "Teléfono",
+    "Dirección",
+    "Localidad",
+    "E-mail",
+    "Acciones",
+  ];
+
+  const handlerPage = async (page) => {
+    execute({
+      params: {
+        page: page,
+        offset: 15,
+      },
+    });
+  };
+
+  const handleRefresh = () => {
+    console.log("ejecute el refresh")
+    execute({
+      method: "GET",
+      params: {
+        page: 0,
+        offset: 15,
+      },
+    });
+  };
+
+
+  if (loading) return <Spinner></Spinner>;
   return (
     <div className="w-full pl-12 pr-8 pt-6">
-      <h1 className='font-semibold text-2xl text-white'>Nómina de Clientes</h1>
+      <h1 className="font-semibold text-2xl text-white">Nómina de Clientes</h1>
       <p className="mt-2 text-xl text-gray-300">Administra los Clientes.</p>
 
       <table className="w-full mt-5 table-auto shadow bg-gray-300 rounded-lg overflow-hidden">
-        <thead className="bg-gray-800 text-gray-300">
-          <tr>
-            <th className='p-2'>Razón Social</th>
-            <th className='p-2'>CUIT</th>
-            <th className='p-2'>Contacto</th>
-            <th className='p-2'>Teléfono</th>
-            <th className='p-2'>Dirección</th>
-            <th className='p-2'>Localidad</th>
-            <th className='p-2'>E-mail</th>
-            <th className='p-2'>Acciones</th>
-          </tr>
-        </thead>
+        <tbody></tbody>
+      </table>
+      <Table
+        columns={COLUMNS}
+        pagination={{
+          totalPages: data.totalPages - 1,
+          actualPage: data.page,
+          handlerChangePage: handlerPage,
+        }}
+      >
         <tbody>
-          {currentPosts.map( cliente => (
-            <Cliente 
-              key={cliente.id}
-              cliente={cliente}
-              handleEliminar = {handleEliminar}
+          {data.items.map((item) => (
+            <Cliente
+              cliente={item}
+              key={item.id}
+              handleRefresh={handleRefresh}
+              page={0}
             />
           ))}
         </tbody>
-      </table>
-      <div className="bg-gray-800 text-gray-300 rounded-b-lg text-center p-2 h-11">
-        <nav>
-          <ul className="inline-flex -space-x-px">
-            <Paginacion
-              totalPosts={clientes.length}
-              postsPerPage={postsPerPage}
-              setCurrentPage={setCurrentPage}
-              currentPage={currentPage}
-            />
-          </ul>
-        </nav>
-      </div>
+      </Table>
     </div>
-  )
-}
+  );
+};
 
-export default NominaClientes
+export default NominaClientes;

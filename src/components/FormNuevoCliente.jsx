@@ -225,7 +225,7 @@ const Formuario = ({ cliente }) => {
                         as="textarea"
                         type="text"
                         className="mt-2 text-sm block w-full p-1 bg-gray-200 rounded-md h-40"
-                        placeholder="Localidad del Cliente"
+                        placeholder="Alguna nota sobre el Cliente"
                         name="notes"
                       />
                     </div>
