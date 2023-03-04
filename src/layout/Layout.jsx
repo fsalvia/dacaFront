@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import logo from "../assets/logoGrisClaro.png";
+import LiteLayout from "./LiteLayout";
 
 const Layout = () => {
   const [open, setOpen] = useState(true);
@@ -27,6 +28,10 @@ const Layout = () => {
   if (cargando)
     return <div className="bg-gray-900 min-h-screen">'Cargando...'</div>;
 
+  console.log(auth);
+
+  if (auth.rol == "storekeeper")
+    return <LiteLayout auth={auth}/>;
   return (
     <div className="md:flex">
       {auth.id ? "" : <Navigate to="/" />}
@@ -324,7 +329,6 @@ const Layout = () => {
                         Todas las Facturas
                       </Link>
                     </li>
-                    
                   </ul>
                 </div>
               </details>
@@ -388,7 +392,6 @@ const Layout = () => {
                         Listado de Gastos
                       </Link>
                     </li>
-                    
                   </ul>
                 </div>
               </details>
@@ -858,10 +861,8 @@ const Layout = () => {
               </li>
             </ul>
           </div>
-          <div className="px-6 pt-8">
-    
-          </div>
-          
+          <div className="px-6 pt-8"></div>
+
           <div className="pl-6 pr-4 py-4 bg-[#232529] flex items-center justify-between">
             <div className="flex items-center">
               <div className="relative w-8 h-8 rounded-full before:absolute before:w-2 before:h-2 before:bg-green-500 before:rounded-full before:right-0 before:bottom-0 before:ring-1 before:ring-white">
@@ -872,9 +873,11 @@ const Layout = () => {
                 />
               </div>
               <div className="flex flex-col pl-3">
-                <div className="text-sm text-gray-50">Mario Rodriguez</div>
+                <div className="text-sm text-gray-50">
+                  {auth.name + " " + auth.lastname}
+                </div>
                 <span className="text-xs text-[#acacb0] font-light tracking-tight">
-                  gsalvia@grupodaca.com.ar
+                  {auth.email}
                 </span>
               </div>
             </div>

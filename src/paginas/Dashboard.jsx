@@ -85,30 +85,13 @@ const Dashboard = () => {
     );
   };
 
-  return (
-    <>
-      <div className="w-full px-5 pt-2 pb-2 mt-4">
-        <div className="bg-gray-700 pt-4 pb-1 pl-4 pr-4 rounded-lg">
-          <div className="flex">
-            <div>
-              <h1 className="text-gray-200 font-semibold mb-3 ">
-                Todos los Recordatorios activos del Usuario<span></span>
-              </h1>
-            </div>
-            <div className="pl-5">
-              <NewReminderModal reload={handleRefresh} />
-            </div>
-          </div>
-          <ListadoReminders
-            pagination={pagination}
-            user={user}
-            reminders={data.items}
-            handleRefresh={handleRefresh}
-            handlerPage={handlerPage}
-          />
-        </div>
-      </div>
-      <div className=" rounded  py-5 px-5 w-full  grid lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 gap-4">
+  const getGraphs = ()=>{
+
+    if(auth.rol != 'manager'){
+      return
+    } else {
+      return(
+        <div className=" rounded  py-5 px-5 w-full  grid lg:grid-cols-3 md:grid-cols-1 sm:grid-cols-1 gap-4">
         <div className="flex flex-col text-sm bg-gray-700 rounded-lg  shadow-md p-2">
           <h1 className="font-semibold text-2xl text-white text-center">
             Facturación
@@ -234,6 +217,34 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      )
+    }
+  }
+
+  return (
+    <>
+      <div className="w-full px-5 pt-2 pb-2 mt-4">
+        <div className="bg-gray-700 pt-4 pb-1 pl-4 pr-4 rounded-lg">
+          <div className="flex">
+            <div>
+              <h1 className="text-gray-200 font-semibold mb-3 ">
+                Todos los Recordatorios activos del Usuario<span></span>
+              </h1>
+            </div>
+            <div className="pl-5">
+              <NewReminderModal reload={handleRefresh} />
+            </div>
+          </div>
+          <ListadoReminders
+            pagination={pagination}
+            user={user}
+            reminders={data.items}
+            handleRefresh={handleRefresh}
+            handlerPage={handlerPage}
+          />
+        </div>
+      </div>
+      {getGraphs()}
     </>
   );
 };

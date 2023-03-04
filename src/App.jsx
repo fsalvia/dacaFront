@@ -39,6 +39,9 @@ import EditarOrden from "./paginas/ordenesCompra/EditarOrden";
 import DetallesOrden from "./paginas/ordenesCompra/DetallesOrden";
 import Menu from "./paginas/ordenesManufactura/Menu";
 import ListadoVidrio from "./paginas/ordenesManufactura/ListadoVidrio";
+import ListadoRemitosInternos from "./paginas/remitosInternos/ListadoRemitosInternos";
+import NuevoRemitoInterno from "./paginas/remitosInternos/NuevoRemitoInterno";
+import EditarRemitoInterno from "./paginas/remitosInternos/EditarRemitoInterno";
 
 function App() {
   return (
@@ -113,6 +116,12 @@ function App() {
           <Route path="/ordenes-manufactura" element={<Layout />}>
             <Route index element={<Menu />} />
             <Route path="vidrio" element={<ListadoVidrio />} />
+          </Route>
+          <Route path="/panol" element={<Layout />}>
+            <Route index element={<ListadoRemitosInternos />} />
+            <Route path="listado" element={<ListadoRemitosInternos />} />
+            <Route path="nuevo" element={<NuevoRemitoInterno />} />
+            <Route path="editar/:id" element={<EditarRemitoInterno />} />
           </Route>
         </Routes>
       </AuthProvider>
