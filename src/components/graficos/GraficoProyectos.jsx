@@ -53,7 +53,6 @@ const GraficoProyectos = () => {
       </p>
     );
   const projects = [...new Set(data.map((project) => project.name))];
-  console.log(data.map((coaster) => coaster.percentageOfCompletion));
   const dataOk = {
     labels: projects,
     datasets: [

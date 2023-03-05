@@ -1,8 +1,9 @@
 import React from "react";
-import DeleteModal from "../DeleteModal";
-import NewReminderModal from "./NewReminderModal";
+import DeleteModal from "./DeleteModal";
+import NewReminderModal from "./reminder/NewReminderModal";
 
-const Reminder = ({ reminder, handleRefresh }) => {
+
+const ReminderLite = ({ reminder, handleRefresh }) => {
   const {
     id,
     userEntity,
@@ -33,45 +34,28 @@ const Reminder = ({ reminder, handleRefresh }) => {
     }
   };
 
-  const handleProjectName = (project) => {
-    if (project.name == "No Indica") {
-      return (
-        <h1 className="font-semibold text-black">
-          Proyecto:{" "}
-          <span className="font-normal text-gray-900">{project.name}</span>
-        </h1>
-      );
-    }
-  };
-  const handleCustomerName = (customer) => {
-    if (customer == undefined) {
-      return "";
-    } else {
-      <h1 className="font-semibold text-black">
-        Cliente:{" "}
-        <span className="font-normal text-gray-900">
-          {customer.businessName}
-        </span>
-      </h1>;
-    }
-  };
-
   return (
     <div className="flex flex-col text-sm bg-gray-400 rounded-lg shadow-md md:flex-row md:max-w-xl hover:bg-gray-300">
       <div className="w-full pl-3 pt-2">
         <div className="flex justify-between mr-2">
-          {handleProjectName(project)}
+          <h1 className="font-semibold text-black">
+            Proyecto:{" "}
+            <span className="font-normal text-gray-900">{"project.name"}</span>
+          </h1>
           <h1 className="font-semibold text-black">
             Fecha:{" "}
             <span className="font-normal text-gray-900">{addedDate}</span>
           </h1>
         </div>
         <div className="flex justify-between mr-2">
-          {handleCustomerName(customer)}
+          <h1 className="font-semibold text-black">
+            Cliente:{" "}
+            <span className="font-normal text-gray-900">
+              {"customer.businessName"}
+            </span>
+          </h1>
           <h1 className="font-semibold text-black flex">
-            <span
-              className={`${reminderDate <= addedDate ? "animate-ping" : ""}`}
-            >
+            <span className={`${reminderDate<=addedDate? 'animate-ping':''}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -95,7 +79,7 @@ const Reminder = ({ reminder, handleRefresh }) => {
           Mensaje: <span className="font-normal text-gray-900">{message}</span>
         </h1>
         <div className="text-right pb-2 pr-2 flex justify-end">
-          {customer != undefined? (<NewReminderModal reminder={reminder} reload={handleRefresh} />) : ''}
+          <NewReminderModal reminder={reminder} reload={handleRefresh} />
 
           <DeleteModal
             element={reminder}
@@ -109,4 +93,4 @@ const Reminder = ({ reminder, handleRefresh }) => {
   );
 };
 
-export default Reminder;
+export default ReminderLite;

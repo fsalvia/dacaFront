@@ -17,6 +17,7 @@ const customStyles = {
 let elements = new Map();
 
 elements.set("customer", "¿Desea eliminar el cliente seleccionado?");
+elements.set("internalNote", "¿Desea eliminar el remito seleccionado?");
 elements.set("project", "¿Desea eliminar el proyecto seleccionado?");
 elements.set("invoice", "¿Desea eliminar la factura seleccionada?");
 elements.set("incomingbill", "¿Desea eliminar la factura/gasto seleccionado?");

@@ -30,7 +30,6 @@ const GraficoGastos = ({ mes, year }) => {
   if (!year) {
     year = new Date().getFullYear();
   }
-  console.log(mes, year)
   const { data, error, loading, execute } = useAxios({
     url: "/api/incomingbillexpenses",
     method: "GET",
@@ -47,7 +46,6 @@ const GraficoGastos = ({ mes, year }) => {
   }, [mes, year]);
 
   if (loading) return <Spinner></Spinner>;
-  console.log(data);
   
   if (data === undefined)
     return (

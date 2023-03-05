@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Reminder from "../components/Reminder";
+import ReminderLite from "../components/ReminderLite";
 import { BACKEND } from "../constants/backend";
 
 const ListadoReminders = ({ cliente }) => {

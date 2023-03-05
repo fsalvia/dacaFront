@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { BACKEND } from "../constants/backend";
 
-axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.baseURL = BACKEND;
 
 export const useAxios = (axiosParams) => {
   const initialConfig = axiosParams;
