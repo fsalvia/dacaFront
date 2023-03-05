@@ -48,7 +48,7 @@ const RemitoInterno = ({
           </button>
           <button
             className="bg-gray-100 rounded-md p-0.5 ml-4 text-red-600 hover:bg-red-200"
-            onClick={() => handlePDF(id, supplier.businessName)}
+            onClick={() => handlePDF(id, noteNumber)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

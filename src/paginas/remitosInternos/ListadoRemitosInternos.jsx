@@ -2,9 +2,13 @@ import React from "react";
 import RemitoInterno from "../../components/remitosInternos/RemitoInterno";
 import Spinner from "../../components/Spinner";
 import Table from "../../components/table/Table";
+import { BACKEND } from "../../constants/backend";
 import { useAxios } from "../../hooks/useAxios";
+import useAuth from "../../hooks/useAuth";
+
 
 const ListadoRemitosInternos = () => {
+  const { auth, cargando } = useAuth();
   const urlActual = location.pathname;
   
   const { data, error, loading, execute } = useAxios({
@@ -33,13 +37,13 @@ const ListadoRemitosInternos = () => {
     });
   };
 
-  const handlePDF = async (id, businessName) => {
-    fetch(`${BACKEND}/api/internalNote/pdf/${id}`).then((response) => {
+  const handlePDF = async (id, name) => {
+    fetch(`${BACKEND}/api/internalNote/pdf/${id}?userId=${auth.id}`).then((response) => {
       response.blob().then((blob) => {
         let url = window.URL.createObjectURL(blob);
         let a = document.createElement("a");
         a.href = url;
-        a.download = "REM_DACA_" + businessName + "_" + id + ".pdf";
+        a.download = "REM_INT_DACA_" + name + ".pdf";
         a.click();
       });
       //window.location.href = response.url;

@@ -13,7 +13,7 @@ const FormNuevoRemitoInterno = ({ remitoInterno }) => {
   const [code, setCode] = useState([]);
   const [category, setCategory] = useState([]);
   const [description, setDescription] = useState([]);
-  const [size, setSize] = useState([]);
+  const [size, setSize] = useState(null);
   const [quantity, setQuantity] = useState([]);
   const [number, setNumber] = useState(1);
   const [item, setItem] = useState(0);
@@ -52,6 +52,7 @@ const FormNuevoRemitoInterno = ({ remitoInterno }) => {
 
   const newRemitoInternoSchema = Yup.object().shape({
     dateOfIssue: Yup.date("Formato incorrecto."),
+    project: Yup.number().required("El proyecto es requerido, o al menos seleccione No Indica."),
     reminderDate: Yup.date("Formato incorrecto."),
     status: Yup.string().required("El estado es requerido."),
     recipient: Yup.string().required("El destinatario es requerido."),
@@ -80,7 +81,7 @@ const FormNuevoRemitoInterno = ({ remitoInterno }) => {
           },
         });
       } else {
-        const url = `${BACKEND}/api/internalNote`;
+        const url = `${BACKEND}/api/internalNote?userId=${auth.id}`;
         response = await fetch(url, {
           method: "POST",
           body: JSON.stringify(values),
@@ -91,6 +92,7 @@ const FormNuevoRemitoInterno = ({ remitoInterno }) => {
         });
       }
       const resultado = await response.json();
+      console.log(resultado)
       navigate("/panol/listado");
     } catch (error) {
       console.log(itemList);
@@ -146,23 +148,27 @@ const FormNuevoRemitoInterno = ({ remitoInterno }) => {
       );
 
       const resultado = await response.json();
-
+      setCode(resultado.code)
       setItem(resultado);
       setCategory(resultado.category);
       setDescription(resultado.description);
       setSize(resultado.size);
+      setQuantity(1)
     } catch (error) {
       console.log(error);
     }
   };
+
+  
   return (
     <div className="pl-6">
       <Formik
         initialValues={{
-          dateOfIssue: remitoInterno?.dateOfIssue ?? "",
+          dateOfIssue:
+            remitoInterno?.dateOfIssue ?? "",
           reminderDate: remitoInterno?.reminderDate ?? "",
           type: remitoInterno?.type ?? "",
-          status: remitoInterno?.status ?? "",
+          status: remitoInterno?.status ?? "Pendiente",
           observation: remitoInterno?.observation ?? "",
           noteNumber: remitoInterno?.noteNumber ?? "",
           recipient: remitoInterno?.recipient ?? "",
@@ -312,8 +318,8 @@ const FormNuevoRemitoInterno = ({ remitoInterno }) => {
                         <th className="p-2 w-20">Item</th>
                         <th className="p-2 w-28">Código</th>
                         <th className="p-2 w-36">Categoria</th>
-                        <th className="p-2">Descripción</th>
-                        <th className="p-2 w-32">Medida [mm]</th>
+                        <th className="p-2 col-span-3">Descripción</th>
+                        <th className="p-2 w-24"></th>
                         <th className="p-2 w-24">Cantidad</th>
                         <th className="p-2 w-24">Acciones</th>
                       </tr>
@@ -384,21 +390,10 @@ const FormNuevoRemitoInterno = ({ remitoInterno }) => {
                       <input
                         type="text"
                         onInput={(e) => setDescription(e.target.value)}
-                        className="xl:col-span-2 md:col-span-3 mt-2 text-sm block p-1 bg-gray-200 rounded-md"
+                        className="xl:col-span-4 md:col-span-3 mt-2 text-sm block p-1 bg-gray-200 rounded-md"
                         value={description}
                       />
-                      <label
-                        className="text-gray-200 text-center lg:pt-3.5 md:pt-1"
-                        htmlFor="name"
-                      >
-                        Medida:
-                      </label>
-                      <input
-                        type="text"
-                        onInput={(e) => setSize(e.target.value)}
-                        className="mt-2 text-center text-sm block p-1 bg-gray-200 rounded-md"
-                        value={size}
-                      />
+
                       <label
                         className="text-gray-200 text-center pt-3.5"
                         htmlFor="name"
